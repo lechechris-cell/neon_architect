@@ -488,6 +488,19 @@
             -webkit-tap-highlight-color: transparent;
             min-width: 44px;
             min-height: 44px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            border-style: solid;
+            font-family: inherit;
+        }
+
+        .lvl-btn:active,
+        .lvl-btn:focus {
+            outline: none;
+            background: var(--p);
+            color: #000;
+            box-shadow: 0 0 30px var(--p);
         }
 
         .lvl-btn::before {
@@ -549,6 +562,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            -webkit-user-select: none;
+            user-select: none;
+            outline: none;
+        }
+
+        .skin-node:active,
+        .skin-node:focus {
+            outline: none;
+            border-color: #fff;
+            box-shadow: 0 0 15px #fff;
+            transform: scale(1.1);
         }
 
         .skin-node.active {
@@ -1121,8 +1145,17 @@
                 this.domLayer.addEventListener('mousedown', triggerInputStart);
                 window.addEventListener('mouseup', triggerInputEnd);
 
-                // Touch Controls - Enhanced
+                // Touch Controls - Enhanced with button detection
                 this.domLayer.addEventListener('touchstart', (e) => {
+                    // Check if touch target is a button or interactive element
+                    const touch = e.touches[0];
+                    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                    
+                    if (element && (element.classList.contains('lvl-btn') || element.classList.contains('skin-node') || element.closest('.lvl-btn') || element.closest('.skin-node'))) {
+                        // Allow button/skin interaction
+                        return;
+                    }
+                    
                     e.preventDefault();
                     e.stopPropagation();
                     triggerInputStart(e);
@@ -1142,23 +1175,39 @@
                 // Prevent scrolling on the game container
                 document.addEventListener('touchmove', (e) => {
                     if (e.target === this.domLayer || this.domLayer.contains(e.target)) {
-                        e.preventDefault();
+                        if (!e.target.classList.contains('lvl-btn') && !e.target.classList.contains('skin-node')) {
+                            e.preventDefault();
+                        }
                     }
                 }, {passive: false});
 
-                // Also add button touch handlers for menu
+                // Button click handlers for touch
                 document.querySelectorAll('.lvl-btn').forEach(btn => {
-                    btn.addEventListener('touchstart', function(e) {
-                        e.preventDefault();
+                    btn.addEventListener('click', function(e) {
                         e.stopPropagation();
-                    }, {passive: false});
+                    });
+                    
+                    btn.addEventListener('touchstart', function(e) {
+                        e.stopPropagation();
+                    }, {passive: true});
+                    
+                    btn.addEventListener('touchend', function(e) {
+                        e.stopPropagation();
+                    }, {passive: true});
                 });
 
                 document.querySelectorAll('.skin-node').forEach(node => {
-                    node.addEventListener('touchstart', function(e) {
-                        e.preventDefault();
+                    node.addEventListener('click', function(e) {
                         e.stopPropagation();
-                    }, {passive: false});
+                    });
+                    
+                    node.addEventListener('touchstart', function(e) {
+                        e.stopPropagation();
+                    }, {passive: true});
+                    
+                    node.addEventListener('touchend', function(e) {
+                        e.stopPropagation();
+                    }, {passive: true});
                 });
             },
 
