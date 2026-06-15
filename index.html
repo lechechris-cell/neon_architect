@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#030305">
     <title>NEON ARCHITECT: SONIC SHIFT EVOLUTION (PREMIUM EDITION)</title>
     <style>
         :root {
@@ -31,6 +34,9 @@
             user-select: none;
             -webkit-user-select: none;
             width: 100%;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         #game-container {
@@ -45,6 +51,7 @@
             border-radius: 12px;
             overflow: hidden;
             background: #000;
+            touch-action: none;
         }
 
         #engine-layer {
@@ -467,6 +474,11 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 44px;
+            min-height: 44px;
         }
 
         .lvl-btn::before {
@@ -522,6 +534,12 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .skin-node.active {
